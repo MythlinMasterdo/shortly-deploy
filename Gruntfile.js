@@ -3,6 +3,10 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+      options: {
+        separator: ';',
+      },
+      'public/dist/client.js': ['public/client/*.js'],
     },
 
     mochaTest: {
@@ -21,11 +25,16 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      client: {
+        files: {
+          'public/dist/client.min.js': ['public/dist/client.js']
+        }
+      }
     },
 
     eslint: {
       target: [
-        // Add list of files to lint here
+        '*.js', '**/*.js', '**/**/*.js'
       ]
     },
 
@@ -49,8 +58,20 @@ module.exports = function(grunt) {
       }
     },
 
+    clean: {
+      js: ['public/dist/*.js']
+    },
+
     shell: {
       prodServer: {
+      }
+    },
+
+    gitadd: {
+      task: {
+        options: {
+          all: true
+        } 
       }
     },
   });
@@ -63,6 +84,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-git');
 
   grunt.registerTask('server-dev', function (target) {
     grunt.task.run([ 'nodemon', 'watch' ]);
@@ -76,7 +99,12 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
+  grunt.registerTask('build-watch', function(target) {
+    grunt.task.run([ 'build', 'watch' ]);
+  });
+
   grunt.registerTask('build', [
+    'eslint', 'test', 'concat', 'uglify'
   ]);
 
   grunt.registerTask('upload', function(n) {
@@ -88,8 +116,10 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('deploy', [
-    // add your deploy tasks here
+    'clean', 'build'
   ]);
 
-
+  grunt.registerTask('deploy --prod', [
+    'clean', 'build'
+  ]);
 };
