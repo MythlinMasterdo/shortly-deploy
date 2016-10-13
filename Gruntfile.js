@@ -74,6 +74,20 @@ module.exports = function(grunt) {
         } 
       }
     },
+
+    gitcommit: {
+      task: {
+      }
+    },
+
+    gitpush: {
+      task: {
+        options: {
+          remote: 'live',
+          branch: 'master'
+        }
+      }
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -120,6 +134,6 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('deploy --prod', [
-    'clean', 'build'
+    'clean', 'build', 'gitadd', 'gitcommit', 'gitpush'
   ]);
 };
