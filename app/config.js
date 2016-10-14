@@ -15,9 +15,6 @@ var userSchema = mongoose.Schema({
   password: String,
   date: Date
 });
-// console.log('urlSchema, userSchema in config.js: ' + urlSchema + ', ' + userSchema);
 exports.connect = mongoose.connect('mongodb://127.0.0.1:27017/test');
 exports.urlSchema = urlSchema;
 exports.userSchema = userSchema;
-
-// module.exports = db;

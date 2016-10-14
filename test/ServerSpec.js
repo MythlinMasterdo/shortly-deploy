@@ -49,7 +49,6 @@ describe('', function() {
           .expect(200)
           .expect(function(res) {
             expect(res.body.url).to.equal('http://www.roflzoo.com/');
-            // console.log('test res.body in shortening links responds with the short code: ', res.body);
             expect(res.body.code).to.be.ok;
           })
           .end(done);

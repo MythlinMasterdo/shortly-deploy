@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       options: {
-        separator: ';',
+        separator: '',
       },
       'public/dist/client.js': ['public/client/*.js'],
     },
@@ -118,8 +118,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('build', [
-    // switched off ''eslint', 'test', ' for testing
-    'concat', 'uglify'
+    'eslint', 'test', 'concat', 'uglify'
   ]);
 
   grunt.registerTask('upload', function(n) {
